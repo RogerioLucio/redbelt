@@ -1,0 +1,100 @@
+
+{# beware that the blocks in your template may be named different #}
+{% block head_css %}
+    <!-- Copy CSS from https://getbootstrap.com/docs/4.1/getting-started/introduction/#css -->
+{% endblock %}
+{% block head_js %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+{% endblock %}
+
+
+{% block navbar %}
+    {% include ('navbar.html.twig') %}
+{% endblock %}
+
+
+{% block container %}
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row" id="main">
+                <div class="col-sm-12 col-md-12 well" id="content">
+                    <br>
+                    <br>
+
+                    <div class="table-responsive">
+                        <table class="records_list table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Author</th>
+                                <th>Language</th>
+                                <th>Publisher</th>
+                                <th>Summary</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for incidente in data %}
+                                <tr>
+                                     <td>{{ incidente.id }}</td>
+                                    <td>{{ incidente.titulo }}</td>
+                                    <td>{{ incidente.descricao }}</td>
+                                    <td>{{ incidente.criticidade }}</td>
+                                    <td>{{ incidente.tipo }}</td>
+                                    <td>{{ incidente.status }}</td>
+                                    <td style="text-align: center; vertical-align: middle;">
+                                        <ul style="list-style-type: none;">
+                                            <li>
+                                                <a class="btn btn-default btn-xs" href="show/{{ incidente.id }}">Visualizar</a>
+                                            </li>
+                                            <li style="margin-top: 10px;">
+                                                <a class="btn btn-default btn-xs"  name="{{ incidente.id }}"  id="delete" >Deletar</a>
+                                                <input type="hidden" name="id" id="id">
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+
+    $(document).on("click","#delete",function (event) {
+    event.preventDefault();
+
+
+    $.ajax({
+    'url': '/incidente/delete',
+    'type': 'post',
+    'data': this.name,
+    success: function (response) {
+    alert(response);
+    location.reload();
+    // you will get response from your php page (what you echo or print)
+
+},
+    error: function (jqXHR, textStatus, errorThrown) {
+    alert(textStatus, errorThrown);
+}
+
+});
+});
+</script>
+
+{% endblock %}

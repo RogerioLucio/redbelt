@@ -1,0 +1,29 @@
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+    requirements:
+      _method:  GET
+incidenteList:
+    path: /incidente/list
+    controller: App\Controller\IncidenteController:list
+    requirements:
+      _method:  GET
+incidenteShow:
+    path: /incidente/show/{id}
+    controller: App\Controller\IncidenteController:show
+    requirements:
+      _method:  GET
+incidenteAlter:
+  path: /incidente
+  controller: App\Controller\IncidenteController:update
+  requirements:
+    _method:  POST
+
+incidenteDelete:
+  path: /incidente/delete
+  controller: App\Controller\IncidenteController:delete
+  requirements:
+    _method:  POST
+
+
+

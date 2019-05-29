@@ -1,0 +1,137 @@
+
+{# beware that the blocks in your template may be named different #}
+{% block head_css %}
+    <!-- Copy CSS from https://getbootstrap.com/docs/4.1/getting-started/introduction/#css -->
+{% endblock %}
+{% block head_js %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+{% endblock %}
+
+
+{% block navbar %}
+    {% include ('navbar.html.twig') %}
+{% endblock %}
+
+{% block container %}
+    <br>
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row" id="main">
+                <div class="col-sm-12 col-md-12 well" id="content">
+
+                    <form class="form-horizontal" id="form" action="/incidente" method="PUT">
+                        <fieldset>
+                            <input type="hidden" name='id' value="{{ inf['id'] }}">
+                            <!-- Form Name -->
+                            <legend><h1>{{ inf['legenda']['titulo_page'] }}</h1></legend>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"
+                                       for="nombre">Titulo</label>
+                                <div class="col-md-4">
+                                    <input id="titulo" name="titulo" type="text" value="{{ inf['titulo'] }}"
+                                           placeholder="Informe um título"
+                                           class="form-control input-md" required="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tipo" class="col-md-4 control-label">Tipo</label>
+                                <div class="col-md-4">
+                                    <select name="tipo" id="" class=" form-control">
+                                        <option value="1">Ataque Brute Force</option>
+                                        <option value="2">Credencias vazadas</option>
+                                        <option value="3">Ataque de DDoS</option>
+                                        <option value="4">Atividades anormais de usuários</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"
+                                       for="descricao">{{ inf['legenda']['descricao'] }}</label>
+                                <div class="col-md-4">
+            <textarea id="descricao" name="descricao" type="text" placeholder="Descrição"
+                      class="form-control input-md" required="required">{{ inf['descricao'] }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="criticidade"
+                                       class="col-md-4 control-label">{{ inf['legenda']['criticidade'] }}</label>
+                                <div class="col-md-4">
+                                    <select name="criticidade" id="" class="col-md-4 form-control">
+                                        <option value="1">Alta</option>
+                                        <option value="2">Média</option>
+                                        <option value="3">Baixa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status"
+                                       class="col-md-4 control-label">{{ inf['legenda']['status'] }}</label>
+                                <div class="col-md-4">
+                                    <select name="status" id="" class="col-md-4 form-control">
+                                        <option value="1">Aberto</option>
+                                        <option value="2">Fechado</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Button (Double) -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="submit"></label>
+                                <div class="col-md-6">
+                                    <button type="submit" formmethod="post" id="submit" name="submit"
+                                            class="btn btn-primary">
+                                        Editar
+                                    </button>
+                                 </div>
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+{% block javascript %}
+
+<script>
+
+    $("#form").submit(function (event) {
+    event.preventDefault();
+
+    $.ajax({
+    'url': '/incidente',
+    'type': 'POST',
+    'data': $('#form').serialize(),
+    success: function (response) {
+    alert(response);
+    // you will get response from your php page (what you echo or print)
+
+},
+    error: function (jqXHR, textStatus, errorThrown) {
+    console.log(textStatus, errorThrown);
+}
+
+});
+});
+</script>
+
+{% endblock %}
